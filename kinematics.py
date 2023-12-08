@@ -9,7 +9,8 @@ def fwdkin(arm: UR5Arm, theta: np.array) -> tuple():
         arm - Robot arm class with home config info and joint value
         theta - (5 x 1) the angles of rotation for each joint
     Returns:
-        End effector matrix (4x4) 
+        R - a numpy array with shape (3,3)
+        P - a numpy array with shape (3,)
     """
     P = arm.get_P()
     H = arm.get_H()
@@ -27,7 +28,7 @@ def fwdkin(arm: UR5Arm, theta: np.array) -> tuple():
     return H[0:3, 0:3], H[:3, 3]
 
 
-def invkin(arm: UR5Arm, Rd, Pd, q0, max_iters=2000, alpha=0.1, tol=1e-4):
+def invkin(arm: UR5Arm, Rd, Pd, q0=np.array([50,50,50,50,50])[None].T*np.pi/180, max_iters=2000, alpha=0.1, tol=1e-4):
     """Calculates the inverse kinematics of a 
     Args:
         Arm - Robot arm class with end effector home config info and 
